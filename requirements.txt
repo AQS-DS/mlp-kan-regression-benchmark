@@ -1,0 +1,36 @@
+# Dependencies for MLP vs KAN experiments
+# Python 3.10.19
+
+# Deep Learning
+torch>=2.0.1,<2.1.0
+torchvision>=0.15.2,<0.16.0
+
+# Numerical computing
+numpy>=1.24.3,<1.26.0
+
+# Plotting
+matplotlib>=3.7.2,<3.9.0
+
+# Data analysis
+pandas>=2.0.3,<2.2.0
+
+# Configuration
+pyyaml>=6.0,<7.0
+
+# Pipeline
+snakemake>=7.32.0,<8.0.0
+# PuLP 2.x is compatible with Snakemake 7.x
+pulp==2.6.0
+
+# KAN (Kolmogorov-Arnold Networks)
+# Note: if pykan is not on PyPI, install it from GitHub:
+# pip install git+https://github.com/KindXiaoming/pykan.git
+# Or use your own implementation
+pykan>=0.0.1
+
+# FLOP counting for KAN (optional; if missing, KAN flops_forward is None)
+fvcore>=0.1.5
+
+# Experiment tracking (local mlruns/ directory)
+mlflow>=2.0
+

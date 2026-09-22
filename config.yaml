@@ -1,0 +1,68 @@
+# Central config for an MLP vs KAN benchmarking demo
+
+# Each target carries its group, input dimension and domain.
+# dim selects the 1D or 2D code path. The group is only a label and a folder name.
+# title, formula and description are report text. They are not evaluated.
+# The callable that builds y from X lives in scripts/utils.py (get_function_definition),
+# under the same name as the key below. A new target needs both an entry here and a branch there.
+targets:
+  airy_ai:
+    group: oscillatory
+    dim: 1
+    domain: [-8, 4]
+    title: "Airy Ai"
+    formula: "Ai(x)"
+    description: "Solution of the Airy equation y'' − xy = 0. It oscillates on the negative axis and decays on the positive axis."
+  hermite_gaussian:
+    group: localized
+    dim: 2
+    domain: [-3, 3]
+    title: "Hermite–Gaussian mode"
+    formula: "H₃(x) H₂(y) exp(−(x²+y²)/2)"
+    description: "Unnormalized two-dimensional harmonic-oscillator mode, with nodal lines and a Gaussian envelope."
+
+# Architectures to evaluate
+models: [mlp, kan]
+
+# Training hyperparameters (sized for a quick local demo)
+training:
+  epochs: 200
+  batch_size: full  # a number (e.g. 32) or "full" for full-batch
+  optimizer: Adam   # Adam or LBFGS
+  learning_rate: 0.001
+  seed: 42
+  n_samples: 800
+  train_split: 0.8
+
+# Architectures (1D/2D)
+architectures:
+  mlp_1d:
+    layers: [1, 16, 16, 1]
+    activation: tanh
+  mlp_2d:
+    layers: [2, 15, 15, 1]
+    activation: tanh
+  kan_1d:
+    width: [1, 16, 1]
+    grid: 19
+    k: 3
+  kan_2d:
+    width: [2, 16, 1]
+    grid: 10
+    k: 3
+
+# Summary: partial = only existing metrics (useful for a demo)
+summary:
+  mode: full  # full | partial
+
+# Report layout. Does not change training or the per-run figures.
+#   target — one section per function, a flat table, and the MLP vs KAN scatter
+#   group  — the same, plus means, a bar chart, and tables by group
+report:
+  group_by: target  # target | group
+
+# Paths
+paths:
+  data: "data"
+  results: "results"
+  scripts: "scripts"
